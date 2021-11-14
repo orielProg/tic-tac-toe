@@ -2,6 +2,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Auth from "./components/auth/Auth";
 import Background from "./layout/Background";
 import TemplateCard from "./layout/TemplateCard";
+import Register from "./components/auth/Register";
+import { Switch, Route } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -14,7 +16,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <Background>
         <TemplateCard>
-          <Auth />
+          <Switch>
+            <Route path="/register" exact ><Register /></Route>
+            <Route path="/login" exact><Auth /></Route>
+          </Switch>
         </TemplateCard>
       </Background>
     </ThemeProvider>

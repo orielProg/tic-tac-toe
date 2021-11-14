@@ -1,16 +1,21 @@
-import Card from "@mui/material/Card";
+import { Grid } from "@mui/material";
+import { height } from "@mui/system";
+import { Paper } from "@mui/material";
 
 const TemplateCard = (props) => {
   return (
-    <Card
-      sx={{
-        alignItems: "center",
-        flexDirection: "column",
-        display: "flex",
-      }}
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: "100vh" }}
     >
-      {props.children}
-    </Card>
+      <Grid item>
+        <Paper>{props.children}</Paper>
+      </Grid>
+    </Grid>
   );
 };
 
