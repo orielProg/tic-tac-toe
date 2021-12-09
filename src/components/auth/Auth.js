@@ -7,6 +7,7 @@ import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
 import { useRef } from "react";
 import { useHistory } from "react-router";
+import {signInWithEmailAndPassword} from "./firebase.js";
 
 const loginUrl =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
@@ -16,34 +17,13 @@ const Auth = (props) => {
   const passwordRef = useRef();
   const history = useHistory();
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
-    fetch(loginUrl, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      }}).then((res) => {
-        if(res.ok){
-          props.setLoginState(true);
-          history.push('/');
-          return res.json;
-        }
-        else{
-          res.json().then((data) => {
-            if(data && data.error && data.error.message){
-              alert(data.error.message);
-            }
-          })
-        }
-      })
-  };
+    const res = signInWithEmailAndPassword(enteredEmail,enteredPassword);
+    if(res.ok) history.push('/');
+  }
 
   return (
     <Container component="main" maxWidth="xs">

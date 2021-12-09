@@ -7,6 +7,9 @@ import { Button } from "@mui/material";
 import { Container, Link, Grid } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useRef } from "react";
+import { registerWithEmailAndPassword } from "./firebase";
+
+
 
 const loginUrl =
     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
@@ -22,63 +25,14 @@ const Register = (props) => {
   const passwordRef = useRef();
   const history = useHistory();
 
-  const insertUsername = (idToken, username) => {
-    fetch(setUsernameUrl, {
-      method: "POST",
-      body: JSON.stringify({
-        idToken : idToken,
-        displayName : username
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        res.json().then((data) => {
-          if (data && data.error && data.error.message) {
-            alert(data.error.message);
-          }
-        });
-      }
-    }).then((data)=>{
-      alert("Successfuly Registered!");
-    });
-  }
-
-  const submitHandler= async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredUsername = usernameRef.current.value;
-    fetch(loginUrl, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        res.json().then((data) => {
-          if (data && data.error && data.error.message) {
-            alert(data.error.message);
-          }
-        });
-      }
-    }).then((data)=>{
-      insertUsername(data.idToken, enteredUsername);
-      history.push("/login");
-    });
-  };
-
-  
+    const res = registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword);
+    console.log(res);
+  }
 
   return (
     <Container component="main" maxWidth="xs">
