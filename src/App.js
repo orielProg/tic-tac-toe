@@ -3,7 +3,9 @@ import Auth from "./components/auth/Auth";
 import Background from "./layout/Background";
 import TemplateCard from "./layout/TemplateCard";
 import Register from "./components/auth/Register";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { useState } from "react";
+import Game from "./game/Game";
 
 const theme = createTheme({
   palette: {
@@ -12,13 +14,29 @@ const theme = createTheme({
 });
 
 function App() {
+  const [loginState, setLoginState] = useState(true);
+
   return (
     <ThemeProvider theme={theme}>
       <Background>
         <TemplateCard>
           <Switch>
-            <Route path="/register" exact ><Register /></Route>
-            <Route path="/login" exact><Auth /></Route>
+            {loginState && (
+              <Route path="/" exact>
+                <Game />
+              </Route>
+            )}
+            {!loginState && (
+              <Route path="/" exact>
+                <Redirect to="/login" />
+              </Route>
+            )}
+            <Route path="/register" exact>
+              <Register />
+            </Route>
+            <Route path="/login" exact >
+              <Auth setLoginState={setLoginState} login = {loginState}/>
+            </Route>
           </Switch>
         </TemplateCard>
       </Background>

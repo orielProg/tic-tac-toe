@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
 import { useRef } from "react";
+import { useHistory } from "react-router";
 
 const loginUrl =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
@@ -13,6 +14,7 @@ const loginUrl =
 const Auth = (props) => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const history = useHistory();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -29,6 +31,8 @@ const Auth = (props) => {
         "Content-Type": "application/json",
       }}).then((res) => {
         if(res.ok){
+          props.setLoginState(true);
+          history.push('/');
           return res.json;
         }
         else{
