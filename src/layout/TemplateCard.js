@@ -7,6 +7,7 @@ const TemplateCard = (props) => {
       container
       spacing={0}
       direction="column"
+      flexDirection= "column"
       alignItems="center"
       justifyContent="center"
       style={{ minHeight: "100vh" }}
