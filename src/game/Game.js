@@ -1,5 +1,5 @@
-import { ButtonGroup, Typography, Button, Avatar } from "@mui/material";
-import { Fragment,useCallback,useEffect } from "react";
+import { ButtonGroup, Typography, Button, Avatar, IconButton } from "@mui/material";
+import { Fragment, useCallback, useEffect } from "react";
 import { Box } from "@mui/system";
 import circle from "../circle.png";
 import crossmark from "../cross-mark.png";
@@ -10,7 +10,10 @@ import { computerMove } from "./game_utils";
 import { styled } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import ComputerIcon from "@mui/icons-material/Computer";
-import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
+import TemplateBox from "../layout/TemplateBox";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useHistory } from "react-router-dom";
 
 const firstGroup = [0, 1, 2],
   secondGroup = [3, 4, 5],
@@ -22,6 +25,7 @@ const TextDiv = styled("div")(({ theme }) => ({
 }));
 
 const Game = (props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const turn = useSelector((state) => state.game.turn);
   const status = useSelector((state) => state.game.gameStatus);
@@ -29,22 +33,29 @@ const Game = (props) => {
 
   const resetGame = () => {
     dispatch(gameActions.resetGame({}));
+  };
+
+  const goBack = () => {
+    history.push('/menu');
   }
 
-  const makeMark =useCallback((event) => {
-    let index;
-    if (event && event.target && (event.target.id === "" || turn === 'o')) {
-      return;
-    } else if (event && event.target && event.target.id) {
-      index = event.target.id;
-    } else {
-      index = event;
-    }
-    if (status !== "on") {
-      return;
-    }
-    dispatch(gameActions.mark({ place: index }));
-  }, [status, dispatch,turn]); 
+  const makeMark = useCallback(
+    (event) => {
+      let index;
+      if (event && event.target && (event.target.id === "" || turn === "o")) {
+        return;
+      } else if (event && event.target && event.target.id) {
+        index = event.target.id;
+      } else {
+        index = event;
+      }
+      if (status !== "on") {
+        return;
+      }
+      dispatch(gameActions.mark({ place: index }));
+    },
+    [status, dispatch, turn]
+  );
 
   useEffect(() => {
     if (status === "on" && turn === "o") {
@@ -60,10 +71,9 @@ const Game = (props) => {
     text_and_icon = { text: "PLAYER HAS WON!", icon: <PersonIcon /> };
   } else if (status === "o") {
     text_and_icon = { text: "COMPUTER HAS WON", icon: <ComputerIcon /> };
-  }
-    else if(status === 'tie'){
-      text_and_icon = {text: "TIE!", icon: <VideogameAssetIcon />};
-    } else {
+  } else if (status === "tie") {
+    text_and_icon = { text: "TIE!", icon: <VideogameAssetIcon /> };
+  } else {
     text_and_icon =
       turn === "x"
         ? { text: "Player's Turn", icon: <PersonIcon /> }
@@ -72,6 +82,9 @@ const Game = (props) => {
 
   const Header = (
     <Fragment>
+    <IconButton onClick = {goBack}>
+    <ArrowBackIcon/>
+    </IconButton>
       <Avatar sx={{ bgcolor: "blue" }}>{text_and_icon.icon}</Avatar>
       <Typography>
         <TextDiv>{text_and_icon.text}</TextDiv>
@@ -80,24 +93,13 @@ const Game = (props) => {
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        "& > *": {
-          m: 1,
-        },
-      }}
-    >
+    <TemplateBox>
       {Header}
-      {status !== 'on' && <Button
-      type="click"
-      variant="contained"
-      onClick = {resetGame}
-    >
-      Play again
-    </Button>}
+      {status !== "on" && (
+        <Button type="click" variant="contained" onClick={resetGame}>
+          Play again
+        </Button>
+      )}
       <ButtonGroup variant="outlined" aria-label="outlined button group">
         {gameBoard.map((item, index) => {
           if (firstGroup.includes(index)) {
@@ -107,8 +109,12 @@ const Game = (props) => {
                 id={index}
                 onClick={makeMark}
               >
-                {item === "x" && <img className="photo" alt = 'crossmark' src={crossmark} />}
-                {item === "o" && <img className="photo" alt = 'circle' src={circle} />}
+                {item === "x" && (
+                  <img className="photo" alt="crossmark" src={crossmark} />
+                )}
+                {item === "o" && (
+                  <img className="photo" alt="circle" src={circle} />
+                )}
               </Button>
             );
           }
@@ -123,8 +129,12 @@ const Game = (props) => {
                 id={index}
                 onClick={makeMark}
               >
-                {item === "x" && <img className="photo" alt = 'crossmark' src={crossmark} />}
-                {item === "o" && <img className="photo" alt = 'circle' src={circle} />}
+                {item === "x" && (
+                  <img className="photo" alt="crossmark" src={crossmark} />
+                )}
+                {item === "o" && (
+                  <img className="photo" alt="circle" src={circle} />
+                )}
               </Button>
             );
           }
@@ -143,14 +153,18 @@ const Game = (props) => {
                 id={index}
                 onClick={makeMark}
               >
-                {item === "x" && <img className="photo" alt = 'crossmark' src={crossmark} />}
-                {item === "o" && <img className="photo" alt = 'circle' src={circle} />}
+                {item === "x" && (
+                  <img className="photo" alt="crossmark" src={crossmark} />
+                )}
+                {item === "o" && (
+                  <img className="photo" alt="circle" src={circle} />
+                )}
               </Button>
             );
           }
         })}
       </ButtonGroup>
-    </Box>
+    </TemplateBox>
   );
 };
 export default Game;

@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
 import { useRef } from "react";
 import { useHistory } from "react-router";
-import {signInWithEmailAndPassword} from "./firebase.js";
+import { signInWithEmailAndPassword } from "./firebase.js";
 
 const loginUrl =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
@@ -21,9 +21,13 @@ const Auth = (props) => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
-    const res = signInWithEmailAndPassword(enteredEmail,enteredPassword);
-    if(res.ok) history.push('/');
-  }
+    signInWithEmailAndPassword(enteredEmail, enteredPassword).then((val) => {
+      if (val === 1) {
+        props.setLoginState(true);
+        history.push("/menu");
+      }
+    });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -67,12 +71,10 @@ const Auth = (props) => {
           </Button>
           <Grid container sx={{ marginTop: 2, marginBottom: 6 }}>
             <Grid item xs>
-              <Link variant="body2">
-                Forgot password?
-              </Link>
+              <Link variant="body2">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link href = "/register" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

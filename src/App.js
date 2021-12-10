@@ -6,6 +6,8 @@ import Register from "./components/auth/Register";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useState } from "react";
 import Game from "./game/Game";
+import GameMenu from "./navigation/GameMenu";
+import { Fragment } from "react";
 
 const theme = createTheme({
   palette: {
@@ -14,7 +16,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const [loginState, setLoginState] = useState(true);
+  const [loginState, setLoginState] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -26,16 +28,26 @@ function App() {
                 <Game />
               </Route>
             )}
-            {!loginState && (
-              <Route path="/" exact>
-                <Redirect to="/login" />
+            {loginState && (
+              <Route path="/menu" exact>
+                <GameMenu setLoginState={setLoginState} />
               </Route>
             )}
+            {!loginState && 
+              <Route path="/" exact>
+                <Redirect to="/login"/>
+              </Route>
+            }
+            {!loginState && 
+              <Route path="/menu" exact>
+                <Redirect to="/login"/>
+              </Route>
+            }
             <Route path="/register" exact>
               <Register />
             </Route>
-            <Route path="/login" exact >
-              <Auth setLoginState={setLoginState} login = {loginState}/>
+            <Route path="/login" exact>
+              <Auth setLoginState={setLoginState} login={loginState} />
             </Route>
           </Switch>
         </TemplateCard>

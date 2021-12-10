@@ -30,8 +30,9 @@ const Register = (props) => {
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredUsername = usernameRef.current.value;
-    const res = registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword);
-    console.log(res);
+    registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword).then(val => {
+      if(val===1) history.push('/login');
+    });
   }
 
   return (

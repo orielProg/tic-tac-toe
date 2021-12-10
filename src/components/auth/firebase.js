@@ -18,6 +18,7 @@ const db = app.firestore();
 export const signInWithEmailAndPassword = async (email, password) => {
   try {
     await auth.signInWithEmailAndPassword(email, password);
+    return 1;
   } catch (err) {
     alert(err.message);
     return -1;
@@ -26,18 +27,26 @@ export const signInWithEmailAndPassword = async (email, password) => {
 
 export const registerWithEmailAndPassword = async (name, email, password) => {
   try {
+    const query = await db.collection("users").where("name", "==", name).get();
+    const query2 = app.get
+    console.log(query2);
+    console.log(query);
+    if(query.docs.length!==0){
+      alert("Username is already used, try different username");
+      return -1;
+    }
     const res = await auth.createUserWithEmailAndPassword(email, password);
-    alert("Successfuly registered!");
     const user = res.user;
-    await db.collection("users").add({
+    db.collection("users").add({
       uid: user.uid,
       name,
       authProvider: "local",
       email,
     });
-    return res.json();
+    alert("Successfuly registered!");
+    return 1;
   } catch (err) {
     alert(err.message);
-    return {};
+    return -1;
   }
 };
