@@ -5,12 +5,10 @@ import { Avatar, TextField, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useHistory } from "react-router";
-import { signInWithEmailAndPassword } from "./firebase.js";
-
-const loginUrl =
-  "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
+import { getArrayOfUsers, getUsernameByEmail, signInWithEmailAndPassword } from "./firebase.js";
+import { rows } from "../../game/Leaderboard.js";
 
 const Auth = (props) => {
   const emailRef = useRef();
@@ -21,9 +19,11 @@ const Auth = (props) => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
-    signInWithEmailAndPassword(enteredEmail, enteredPassword).then((val) => {
+    signInWithEmailAndPassword(enteredEmail, enteredPassword).then(async (val) => {
       if (val === 1) {
-        props.setLoginState(true);
+        const username = await getUsernameByEmail(enteredEmail);
+        console.log(getArrayOfUsers());
+        props.setLoginState(username);
         history.push("/menu");
       }
     });
@@ -56,6 +56,7 @@ const Auth = (props) => {
           <TextField
             margin="normal"
             fullWidth
+            type="password"
             id="password"
             label="Password"
             inputRef={passwordRef}
@@ -71,7 +72,7 @@ const Auth = (props) => {
           </Button>
           <Grid container sx={{ marginTop: 2, marginBottom: 6 }}>
             <Grid item xs>
-              <Link variant="body2">Forgot password?</Link>
+              <Link href = "/recover" variant="body2">Forgot password?</Link>
             </Grid>
             <Grid item>
               <Link href="/register" variant="body2">

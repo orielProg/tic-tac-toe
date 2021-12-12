@@ -10,14 +10,6 @@ import { useRef } from "react";
 import { registerWithEmailAndPassword } from "./firebase";
 
 
-
-const loginUrl =
-    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
-  const setUsernameUrl =
-    "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyB6pMIrvFal9tedbnYPFNkPoyvYZoPWGv0";
-
-
-
 const Register = (props) => {
   
   const usernameRef = useRef();
@@ -69,6 +61,7 @@ const Register = (props) => {
           <TextField
             margin="normal"
             fullWidth
+            type="password"
             id="password"
             label="Password"
             inputRef={passwordRef}

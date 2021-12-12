@@ -8,6 +8,8 @@ import { useState } from "react";
 import Game from "./game/Game";
 import GameMenu from "./navigation/GameMenu";
 import { Fragment } from "react";
+import Leaderboard from "./game/Leaderboard";
+import PasswordReset from "./components/auth/PasswordReset";
 
 const theme = createTheme({
   palette: {
@@ -16,7 +18,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const [loginState, setLoginState] = useState(false);
+  const [loginState, setLoginState] = useState(null);
 
   return (
     <ThemeProvider theme={theme}>
@@ -25,7 +27,12 @@ function App() {
           <Switch>
             {loginState && (
               <Route path="/" exact>
-                <Game />
+                <Game loginState = {loginState}/>
+              </Route>
+            )}
+            {loginState && (
+              <Route path="/leaderboard" exact>
+                <Leaderboard/>
               </Route>
             )}
             {loginState && (
@@ -41,6 +48,11 @@ function App() {
             {!loginState && 
               <Route path="/menu" exact>
                 <Redirect to="/login"/>
+              </Route>
+            }
+            {!loginState && 
+              <Route path="/recover" exact>
+                <PasswordReset />
               </Route>
             }
             <Route path="/register" exact>

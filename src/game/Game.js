@@ -1,4 +1,10 @@
-import { ButtonGroup, Typography, Button, Avatar, IconButton } from "@mui/material";
+import {
+  ButtonGroup,
+  Typography,
+  Button,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 import { Fragment, useCallback, useEffect } from "react";
 import { Box } from "@mui/system";
 import circle from "../circle.png";
@@ -12,8 +18,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import ComputerIcon from "@mui/icons-material/Computer";
 import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import TemplateBox from "../layout/TemplateBox";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useHistory } from "react-router-dom";
+import {
+  addWinToUser,
+  getUsernameByEmail,
+  addTieToUser,
+  addLoseToUser,
+} from "../components/auth/firebase";
 
 const firstGroup = [0, 1, 2],
   secondGroup = [3, 4, 5],
@@ -30,14 +42,16 @@ const Game = (props) => {
   const turn = useSelector((state) => state.game.turn);
   const status = useSelector((state) => state.game.gameStatus);
   const gameBoard = useSelector((state) => state.game.gameTable);
+  const userConnected = props.loginState;
 
   const resetGame = () => {
     dispatch(gameActions.resetGame({}));
   };
 
   const goBack = () => {
-    history.push('/menu');
-  }
+    resetGame();
+    history.push("/menu");
+  };
 
   const makeMark = useCallback(
     (event) => {
@@ -67,12 +81,16 @@ const Game = (props) => {
   }, [status, turn, makeMark, gameBoard]);
 
   let text_and_icon;
+
   if (status === "x") {
     text_and_icon = { text: "PLAYER HAS WON!", icon: <PersonIcon /> };
+    addWinToUser(userConnected);
   } else if (status === "o") {
     text_and_icon = { text: "COMPUTER HAS WON", icon: <ComputerIcon /> };
+    addLoseToUser(userConnected);
   } else if (status === "tie") {
     text_and_icon = { text: "TIE!", icon: <VideogameAssetIcon /> };
+    addTieToUser(userConnected);
   } else {
     text_and_icon =
       turn === "x"
@@ -82,9 +100,9 @@ const Game = (props) => {
 
   const Header = (
     <Fragment>
-    <IconButton onClick = {goBack}>
-    <ArrowBackIcon/>
-    </IconButton>
+      <IconButton onClick={goBack}>
+        <ArrowBackIcon />
+      </IconButton>
       <Avatar sx={{ bgcolor: "blue" }}>{text_and_icon.icon}</Avatar>
       <Typography>
         <TextDiv>{text_and_icon.text}</TextDiv>
@@ -107,6 +125,7 @@ const Game = (props) => {
               <Button
                 style={{ width: 150, height: 150 }}
                 id={index}
+                key={index}
                 onClick={makeMark}
               >
                 {item === "x" && (
@@ -127,6 +146,7 @@ const Game = (props) => {
               <Button
                 style={{ width: 150, height: 150 }}
                 id={index}
+                key={index}
                 onClick={makeMark}
               >
                 {item === "x" && (
@@ -151,6 +171,7 @@ const Game = (props) => {
               <Button
                 style={{ width: 150, height: 150 }}
                 id={index}
+                key={index}
                 onClick={makeMark}
               >
                 {item === "x" && (
