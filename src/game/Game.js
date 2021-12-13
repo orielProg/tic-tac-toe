@@ -25,6 +25,7 @@ import {
   getUsernameByEmail,
   addTieToUser,
   addLoseToUser,
+  getUsernameByUid,
 } from "../components/auth/firebase";
 
 const firstGroup = [0, 1, 2],
@@ -42,7 +43,7 @@ const Game = (props) => {
   const turn = useSelector((state) => state.game.turn);
   const status = useSelector((state) => state.game.gameStatus);
   const gameBoard = useSelector((state) => state.game.gameTable);
-  const userConnected = props.loginState;
+  const uid = props.loginState;
 
   const resetGame = () => {
     dispatch(gameActions.resetGame({}));
@@ -84,13 +85,13 @@ const Game = (props) => {
 
   if (status === "x") {
     text_and_icon = { text: "PLAYER HAS WON!", icon: <PersonIcon /> };
-    addWinToUser(userConnected);
+    addWinToUser(uid);
   } else if (status === "o") {
     text_and_icon = { text: "COMPUTER HAS WON", icon: <ComputerIcon /> };
-    addLoseToUser(userConnected);
+    addLoseToUser(uid);
   } else if (status === "tie") {
     text_and_icon = { text: "TIE!", icon: <VideogameAssetIcon /> };
-    addTieToUser(userConnected);
+    addTieToUser(uid);
   } else {
     text_and_icon =
       turn === "x"

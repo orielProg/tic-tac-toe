@@ -10,6 +10,7 @@ import GameMenu from "./navigation/GameMenu";
 import { Fragment } from "react";
 import Leaderboard from "./game/Leaderboard";
 import PasswordReset from "./components/auth/PasswordReset";
+import UpdateProfile from "./update/UpdateProfile";
 
 const theme = createTheme({
   palette: {
@@ -55,11 +56,16 @@ function App() {
                 <PasswordReset />
               </Route>
             }
+            {loginState && 
+              <Route path="/update" exact>
+                <UpdateProfile setLoginState={setLoginState} login={loginState}/>
+              </Route>
+            }
             <Route path="/register" exact>
               <Register />
             </Route>
             <Route path="/login" exact>
-              <Auth setLoginState={setLoginState} login={loginState} />
+              <Auth setLoginState={setLoginState}/>
             </Route>
           </Switch>
         </TemplateCard>

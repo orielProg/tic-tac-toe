@@ -7,26 +7,65 @@ import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useHistory } from "react-router";
-import { getArrayOfUsers, getUsernameByEmail, signInWithEmailAndPassword } from "./firebase.js";
+import {
+  getArrayOfUsers,
+  getUsernameByEmail,
+  signInWithEmailAndPassword,
+  test,
+} from "./firebase.js";
 import { rows } from "../../game/Leaderboard.js";
 
 const Auth = (props) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
+  
+  const calculateRemainingTime = (expirationTime) => {
+    const currentTime = new Date().getTime();
+    const adjExpirationTime = new Date(expirationTime).getTime();
+    const remainingDuration = adjExpirationTime - currentTime;
+    return remainingDuration;
+  };  
+
+  const retrieveStoredToken = () => {
+    const storedToken = localStorage.getItem("token");
+    const storedExpirationDate = localStorage.getItem("expirationTime");
+
+    const remainingTime = calculateRemainingTime(storedExpirationDate);
+
+    if (remainingTime <= 3600) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("expirationTime");
+      return null;
+    }
+
+    return {
+      token: storedToken,
+      duration: remainingTime,
+    };
+  };
+
+  const tokenDetails = retrieveStoredToken();
+
+  if (tokenDetails) {
+    props.setLoginState(tokenDetails.token);
+    history.push("/menu");
+  }
 
   const submitHandler = async (event) => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
-    signInWithEmailAndPassword(enteredEmail, enteredPassword).then(async (val) => {
-      if (val === 1) {
-        const username = await getUsernameByEmail(enteredEmail);
-        console.log(getArrayOfUsers());
-        props.setLoginState(username);
-        history.push("/menu");
+    signInWithEmailAndPassword(enteredEmail, enteredPassword).then(
+      async (uid) => {
+        if (uid) {
+          localStorage.setItem("token", uid);
+          localStorage.setItem("expirationTime", new Date(new Date().getTime()+60*60*1000).toISOString());
+          props.setLoginState(uid);
+          history.push("/menu");
+        }
       }
-    });
+    );
   };
 
   return (
@@ -72,7 +111,9 @@ const Auth = (props) => {
           </Button>
           <Grid container sx={{ marginTop: 2, marginBottom: 6 }}>
             <Grid item xs>
-              <Link href = "/recover" variant="body2">Forgot password?</Link>
+              <Link href="/recover" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
             <Grid item>
               <Link href="/register" variant="body2">

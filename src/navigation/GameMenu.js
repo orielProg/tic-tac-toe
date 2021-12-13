@@ -1,14 +1,16 @@
 import { useHistory } from "react-router-dom";
 import TemplateBox from "../layout/TemplateBox";
-import { Button, IconButton, Tooltip } from "@mui/material";
+import { Button, Container, IconButton, Tooltip } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Emoji from "a11y-react-emoji";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Menu } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 import { ListItemIcon } from "@mui/material";
+import { Box } from "@mui/system";
+import { Grid } from "@mui/material";
 
 const GameMenu = (props) => {
   const [settingsPosition, setSettingsPosition] = useState(null);
@@ -16,25 +18,31 @@ const GameMenu = (props) => {
   const history = useHistory();
   const openLeaderboard = () => {
     history.push("/leaderboard");
-  }
+  };
 
   const openGame = () => {
     history.push("/");
-  }
+  };
 
-  const handleClose =() => {
+  const openUpdateProfile = () => {
+    history.push("/update");
+  };
+
+  const handleClose = () => {
     setSettingsPosition(null);
-  }
+  };
 
   const handleClick = (event) => {
     setSettingsPosition(event.currentTarget);
-  }
+  };
 
   const logoutHandler = () => {
     console.log("bye");
-    props.setLoginState(false);
+    props.setLoginState(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
     history.push("/login");
-  }
+  };
 
   const SettingsMenu = (
     <Menu
@@ -71,7 +79,7 @@ const GameMenu = (props) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem>
+      <MenuItem onClick={openUpdateProfile}>
         <Avatar />
         Update profile
       </MenuItem>
@@ -85,28 +93,58 @@ const GameMenu = (props) => {
   );
 
   return (
-    <TemplateBox>
-      <Tooltip title="Settings" sx={{ float: "right" }}>
-        <IconButton onClick={handleClick} size="small">
-          <SettingsIcon />
-        </IconButton>
-      </Tooltip>
-      <Button
-        type="click"
-        variant="outlined"
-        fullWidth
-        sx={{ marginTop: 10 }}
-        onClick={openLeaderboard}
+    <Fragment>
+      <Box
+        sx={{
+          flexDirection: "column",
+        }}
       >
-        Leaderboard
-        <Emoji symbol="🌍" label="world" />
-      </Button>
-      <Button type="click" variant="outlined" fullWidth onClick = {openGame} sx={{ marginTop: 10 }}>
-        Play game
-        <Emoji symbol="🎮" label="game" />
-      </Button>
-      {SettingsMenu}
-    </TemplateBox>
+        <Tooltip title="Settings" sx={{ float: "right" }}>
+          <IconButton onClick={handleClick} size="small">
+            <SettingsIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            alignItems: "center",
+            paddingTop: 5,
+            flexDirection: "column",
+            display: "flex",
+          }}
+        >
+          <Button
+            type="click"
+            variant="outlined"
+            onClick={openGame}
+            sx={{ marginTop: 5, float: "center", height: 80, margin: 2 }}
+          >
+            New Game
+            <Emoji symbol="🎮" label="game" />
+          </Button>
+          <Button
+            type="click"
+            variant="outlined"
+            sx={{ marginTop: 5, float: "center", height: 80, margin: 2 }}
+            onClick={openLeaderboard}
+          >
+            Leaderboard
+            <Emoji symbol="🌍" label="world" />
+          </Button>
+          <Button
+            type="click"
+            variant="outlined"
+            sx={{ marginTop: 5, float: "center", height: 80, margin: 2 }}
+            onClick={logoutHandler}
+          >
+            Logout
+            <Emoji symbol="🚪" label="exit" />
+          </Button>
+          {SettingsMenu}
+        </Box>
+      </Container>
+    </Fragment>
   );
 };
 

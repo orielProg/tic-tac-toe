@@ -6,9 +6,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton, TableContainer } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { Paper } from "@mui/material";
-import TemplateBox from "../layout/TemplateBox";
+import { Box } from "@mui/system";
 
 const columns = [
+  { field: "id", headerName: "Rank" },
   { field: "username", headerName: "Username" },
   { field: "totalgames", headerName: "Total games", width: 150 },
   { field: "wins", headerName: "Wins" },
@@ -27,8 +28,11 @@ const Leaderboard = (props) => {
   useEffect(() => {
     const getLeaderboard = async () => {
       const array = await getArrayOfUsers();
-      const rows = array.map((element) => ({
-        id: element.username,
+      array.sort((a,b) => {
+        return b.wins-a.wins;
+      });
+      const rows = array.map((element,index) => ({
+        id: index+1,
         username: element.username,
         totalgames: element.wins + element.loses + element.ties,
         wins: element.wins,
@@ -51,7 +55,13 @@ const Leaderboard = (props) => {
 
   return (
     <Fragment>
-      <TemplateBox>{Header}</TemplateBox>
+    <Box
+    sx={{
+      flexDirection: "column",
+    }}
+  >
+    {Header}
+  </Box>
       <div style={{ height: 400, width: 700 }}>
         <DataGrid
           rows={rowsData}

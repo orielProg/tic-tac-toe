@@ -8,13 +8,25 @@ import { Container } from "@mui/material";
 import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button } from "@mui/material";
+import { sendPasswordResetEmail } from "./firebase";
+import { useState } from "react";
 
 const PasswordReset = (props) => {
   const history = useHistory();
   const emailRef = useRef();
+  const codeRef = useRef();
 
   const goBack = () => {
     history.push("/menu");
+  };
+
+  const sendResetEmail = () => {
+    const email = emailRef.current.value;
+    sendPasswordResetEmail(email).then((val) => {
+      if (val === 1) {
+        goBack();
+      }
+    });
   };
 
   const Header = (
@@ -36,7 +48,7 @@ const PasswordReset = (props) => {
         <Box
           sx={{
             alignItems: "center",
-            paddingTop: 5,
+            paddingTop: 3,
             flexDirection: "column",
             display: "flex",
           }}
@@ -44,8 +56,8 @@ const PasswordReset = (props) => {
           <Typography variant="h5" sx={{ paddingTop: 1 }}>
             Account recovery
           </Typography>
-          <Typography variant="h7" sx={{ paddingTop: 2 }}>
-            Enter an email address where we can send you a verification code
+          <Typography variant="h7" sx={{ paddingTop: 2, paddingBottom: 1 }}>
+            Enter an email address where we can send you a verification code 
           </Typography>
 
           <TextField
@@ -57,18 +69,21 @@ const PasswordReset = (props) => {
           />
         </Box>
       </Container>
+
       <Box
         sx={{
           flexDirection: "column",
-          alignContent : "right"
+          alignItems: "right",
+          display: "flex",
         }}
       >
-      <Button variant="contained" color="success">
-      Next
-    </Button>
+        <Button variant="contained" sx={{ margin: 3, float: "right" }} onClick = {sendResetEmail}>
+          Next
+        </Button>
       </Box>
     </Fragment>
   );
+
 };
 
 export default PasswordReset;
