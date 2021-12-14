@@ -15,35 +15,35 @@ import {
 } from "./firebase.js";
 import { rows } from "../../game/Leaderboard.js";
 
+const calculateRemainingTime = (expirationTime) => {
+  const currentTime = new Date().getTime();
+  const adjExpirationTime = new Date(expirationTime).getTime();
+  const remainingDuration = adjExpirationTime - currentTime;
+  return remainingDuration;
+};  
+
+export const retrieveStoredToken = () => {
+  const storedToken = localStorage.getItem("token");
+  const storedExpirationDate = localStorage.getItem("expirationTime");
+
+  const remainingTime = calculateRemainingTime(storedExpirationDate);
+
+  if (remainingTime <= 3600) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
+    return null;
+  }
+
+  return {
+    token: storedToken,
+    duration: remainingTime,
+  };
+};
+
 const Auth = (props) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
-  
-  const calculateRemainingTime = (expirationTime) => {
-    const currentTime = new Date().getTime();
-    const adjExpirationTime = new Date(expirationTime).getTime();
-    const remainingDuration = adjExpirationTime - currentTime;
-    return remainingDuration;
-  };  
-
-  const retrieveStoredToken = () => {
-    const storedToken = localStorage.getItem("token");
-    const storedExpirationDate = localStorage.getItem("expirationTime");
-
-    const remainingTime = calculateRemainingTime(storedExpirationDate);
-
-    if (remainingTime <= 3600) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("expirationTime");
-      return null;
-    }
-
-    return {
-      token: storedToken,
-      duration: remainingTime,
-    };
-  };
 
   const tokenDetails = retrieveStoredToken();
 

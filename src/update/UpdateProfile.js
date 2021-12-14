@@ -81,7 +81,7 @@ const UpdateProfile = (props) => {
         msg = "Username changed successfully";
       }
     } else {
-      const result = await resetScore(uid, passwordRef.current.value);
+      result = await resetScore(uid, passwordRef.current.value);
       if (result === 1) {
         msg = "Score reset successfully";
       }
@@ -93,6 +93,7 @@ const UpdateProfile = (props) => {
   };
 
   let goBack = updateData ? goBackFromUpdate : goBackFromMenu;
+  let upperPassword = updateData === "password" ? "password" : "";
 
   let componentDetails = {
     avatar_icon: <EmailIcon />,
@@ -124,7 +125,7 @@ const UpdateProfile = (props) => {
       id2: "new password",
       label1: "Old password",
       label2: "New password",
-      button: "Change Username",
+      button: "Change Password",
       clickFunc: { changeEmail },
     };
   } else if (updateData === "score") {
@@ -246,6 +247,7 @@ const UpdateProfile = (props) => {
             <TextField
               margin="normal"
               fullWidth
+              type={upperPassword}
               id={componentDetails.id1}
               label={componentDetails.label1}
               inputRef={firstRef}

@@ -196,13 +196,15 @@ export const changeUsernameByUid = async (uid, password, newUsername) => {
     const oldUsername = await getUsernameByUid(uid);
     const email = await getEmailByUsername(oldUsername);
     await auth.signInWithEmailAndPassword(email, password);
+    console.log(email);
     var data;
     const snapshot = await db
       .collection("users")
       .where("email", "==", email)
       .get();
-    snapshot.forEach((element) => {
-      data = element;
+    snapshot.forEach((doc) => {
+      console.log(doc.data());
+      data = doc.data();
       data.username = newUsername;
     });
     await db.collection("users").doc(newUsername).set(data);

@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Auth from "./components/auth/Auth";
+import Auth, { retrieveStoredToken } from "./components/auth/Auth";
 import Background from "./layout/Background";
 import TemplateCard from "./layout/TemplateCard";
 import Register from "./components/auth/Register";
@@ -20,6 +20,11 @@ const theme = createTheme({
 
 function App() {
   const [loginState, setLoginState] = useState(null);
+  const tokenDetails = retrieveStoredToken();
+
+  if (!loginState && tokenDetails) {
+    setLoginState(tokenDetails.token);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -27,46 +32,43 @@ function App() {
         <TemplateCard>
           <Switch>
             {loginState && (
-              <Route path="/" exact>
-                <Game loginState = {loginState}/>
-              </Route>
+              <Fragment>
+                <Route path="/" exact>
+                  <Game loginState={loginState} />
+                </Route>
+                <Route path="/leaderboard" exact>
+                  <Leaderboard />
+                </Route>
+                <Route path="/menu" exact>
+                  <GameMenu setLoginState={setLoginState} />
+                </Route>
+                <Route path="/update" exact>
+                  <UpdateProfile
+                    setLoginState={setLoginState}
+                    login={loginState}
+                  />
+                </Route>
+              </Fragment>
             )}
-            {loginState && (
-              <Route path="/leaderboard" exact>
-                <Leaderboard/>
-              </Route>
+            {!loginState && (
+              <Fragment>
+                <Route path="/login" exact>
+                  <Auth setLoginState={setLoginState} />
+                </Route>
+                <Route path="/" exact>
+                  <Redirect to="/login" />
+                </Route>
+                <Route path="/menu" exact>
+                  <Redirect to="/login" />
+                </Route>
+                <Route path="/recover" exact>
+                  <PasswordReset />
+                </Route>
+                <Route path="/register" exact>
+                  <Register setLoginState={setLoginState} />
+                </Route>
+              </Fragment>
             )}
-            {loginState && (
-              <Route path="/menu" exact>
-                <GameMenu setLoginState={setLoginState} />
-              </Route>
-            )}
-            {!loginState && 
-              <Route path="/" exact>
-                <Redirect to="/login"/>
-              </Route>
-            }
-            {!loginState && 
-              <Route path="/menu" exact>
-                <Redirect to="/login"/>
-              </Route>
-            }
-            {!loginState && 
-              <Route path="/recover" exact>
-                <PasswordReset />
-              </Route>
-            }
-            {loginState && 
-              <Route path="/update" exact>
-                <UpdateProfile setLoginState={setLoginState} login={loginState}/>
-              </Route>
-            }
-            <Route path="/register" exact>
-              <Register />
-            </Route>
-            <Route path="/login" exact>
-              <Auth setLoginState={setLoginState}/>
-            </Route>
           </Switch>
         </TemplateCard>
       </Background>

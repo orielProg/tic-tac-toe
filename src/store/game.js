@@ -4,6 +4,7 @@ import { isTie, judge } from "../game/game_utils";
 const initialGameState = {
   gameStatus: "on",
   gameTable: ["", "", "", "", "", "", "", "", ""],
+  winMarks : [],
   turn: "x",
 };
 
@@ -24,6 +25,7 @@ const gameSlice = createSlice({
         state.gameStatus = initialGameState.gameStatus;
         state.gameTable = initialGameState.gameTable;
         state.turn = initialGameState.turn;
+        state.winMarks = initialGameState.winMarks;
     }
   },
 });

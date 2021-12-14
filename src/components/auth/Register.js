@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 import { Container, Link, Grid } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useRef } from "react";
-import { registerWithEmailAndPassword } from "./firebase";
+import { registerWithEmailAndPassword, signInWithEmailAndPassword } from "./firebase";
 
 
 const Register = (props) => {
@@ -22,8 +22,16 @@ const Register = (props) => {
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredUsername = usernameRef.current.value;
-    registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword).then(val => {
-      if(val===1) history.push('/login');
+    registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword).then(async val => {
+      if(val===1){
+        const uid = await signInWithEmailAndPassword(enteredEmail, enteredPassword);
+        if(uid){
+          localStorage.setItem("token", uid);
+          localStorage.setItem("expirationTime", new Date(new Date().getTime()+60*60*1000).toISOString());
+          props.setLoginState(uid);
+          history.push("/menu");
+        }
+      }
     });
   }
 

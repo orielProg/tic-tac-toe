@@ -43,6 +43,7 @@ const Game = (props) => {
   const turn = useSelector((state) => state.game.turn);
   const status = useSelector((state) => state.game.gameStatus);
   const gameBoard = useSelector((state) => state.game.gameTable);
+  const winMarks = useSelector((state) => state.game.winMarks);
   const uid = props.loginState;
 
   const resetGame = () => {
@@ -82,9 +83,10 @@ const Game = (props) => {
   }, [status, turn, makeMark, gameBoard]);
 
   let text_and_icon;
+  let winMarkOnBoard;
 
   if (status === "x") {
-    text_and_icon = { text: "PLAYER HAS WON!", icon: <PersonIcon /> };
+    text_and_icon = { text: "YOU HAVE WON!", icon: <PersonIcon /> };
     addWinToUser(uid);
   } else if (status === "o") {
     text_and_icon = { text: "COMPUTER HAS WON", icon: <ComputerIcon /> };
@@ -100,93 +102,114 @@ const Game = (props) => {
   }
 
   const Header = (
-    <Fragment>
-      <IconButton onClick={goBack}>
-        <ArrowBackIcon />
-      </IconButton>
-      <Avatar sx={{ bgcolor: "blue" }}>{text_and_icon.icon}</Avatar>
-      <Typography>
-        <TextDiv>{text_and_icon.text}</TextDiv>
-      </Typography>
-    </Fragment>
+    <IconButton onClick={goBack}>
+      <ArrowBackIcon />
+    </IconButton>
   );
 
   return (
-    <TemplateBox>
-      {Header}
-      {status !== "on" && (
-        <Button type="click" variant="contained" onClick={resetGame}>
-          Play again
-        </Button>
-      )}
-      <ButtonGroup variant="outlined" aria-label="outlined button group">
-        {gameBoard.map((item, index) => {
-          if (firstGroup.includes(index)) {
-            return (
-              <Button
-                style={{ width: 150, height: 150 }}
-                id={index}
-                key={index}
-                onClick={makeMark}
-              >
-                {item === "x" && (
-                  <img className="photo" alt="crossmark" src={crossmark} />
-                )}
-                {item === "o" && (
-                  <img className="photo" alt="circle" src={circle} />
-                )}
-              </Button>
-            );
-          }
-        })}
-      </ButtonGroup>
-      <ButtonGroup variant="outlined" aria-label="outlined button group">
-        {gameBoard.map((item, index) => {
-          if (secondGroup.includes(index)) {
-            return (
-              <Button
-                style={{ width: 150, height: 150 }}
-                id={index}
-                key={index}
-                onClick={makeMark}
-              >
-                {item === "x" && (
-                  <img className="photo" alt="crossmark" src={crossmark} />
-                )}
-                {item === "o" && (
-                  <img className="photo" alt="circle" src={circle} />
-                )}
-              </Button>
-            );
-          }
-        })}
-      </ButtonGroup>
-      <ButtonGroup
-        variant="outlined"
-        aria-label="outlined button group"
-        size="large"
+    <Fragment>
+      <Box
+        sx={{
+          flexDirection: "column",
+        }}
       >
-        {gameBoard.map((item, index) => {
-          if (thirdGroup.includes(index)) {
-            return (
-              <Button
-                style={{ width: 150, height: 150 }}
-                id={index}
-                key={index}
-                onClick={makeMark}
-              >
-                {item === "x" && (
-                  <img className="photo" alt="crossmark" src={crossmark} />
-                )}
-                {item === "o" && (
-                  <img className="photo" alt="circle" src={circle} />
-                )}
-              </Button>
-            );
-          }
-        })}
-      </ButtonGroup>
-    </TemplateBox>
+        {Header}
+      </Box>
+      <TemplateBox>
+        <Avatar sx={{ bgcolor: "blue" }}>{text_and_icon.icon}</Avatar>
+        <Typography>
+          <TextDiv>{text_and_icon.text}</TextDiv>
+        </Typography>
+        {status !== "on" && (
+          <Button type="click" variant="contained" onClick={resetGame}>
+            Play again
+          </Button>
+        )}
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+          {gameBoard.map((item, index) => {
+            if (firstGroup.includes(index)) {
+              winMarkOnBoard = winMarks.includes(index)
+                ? { variant: "contained", color: "error" }
+                : { variant: "", color: "" };
+              return (
+                <Button
+                  style={{ width: 150, height: 150 }}
+                  variant={winMarkOnBoard.variant}
+                  color={winMarkOnBoard.color}
+                  id={index}
+                  key={index}
+                  onClick={makeMark}
+                >
+                  {item === "x" && (
+                    <img className="photo" alt="crossmark" src={crossmark} />
+                  )}
+                  {item === "o" && (
+                    <img className="photo" alt="circle" src={circle} />
+                  )}
+                </Button>
+              );
+            }
+          })}
+        </ButtonGroup>
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+          {gameBoard.map((item, index) => {
+            if (secondGroup.includes(index)) {
+              winMarkOnBoard = winMarks.includes(index)
+                ? { variant: "contained", color: "error" }
+                : { variant: "", color: "" };
+              return (
+                <Button
+                  style={{ width: 150, height: 150 }}
+                  variant={winMarkOnBoard.variant}
+                  color={winMarkOnBoard.color}
+                  id={index}
+                  key={index}
+                  onClick={makeMark}
+                >
+                  {item === "x" && (
+                    <img className="photo" alt="crossmark" src={crossmark} />
+                  )}
+                  {item === "o" && (
+                    <img className="photo" alt="circle" src={circle} />
+                  )}
+                </Button>
+              );
+            }
+          })}
+        </ButtonGroup>
+        <ButtonGroup
+          variant="outlined"
+          aria-label="outlined button group"
+          size="large"
+        >
+          {gameBoard.map((item, index) => {
+            if (thirdGroup.includes(index)) {
+              winMarkOnBoard = winMarks.includes(index)
+                ? { variant: "contained", color: "error" }
+                : { variant: "", color: "" };
+              return (
+                <Button
+                  style={{ width: 150, height: 150 }}
+                  id={index}
+                  variant={winMarkOnBoard.variant}
+                  color={winMarkOnBoard.color}
+                  key={index}
+                  onClick={makeMark}
+                >
+                  {item === "x" && (
+                    <img className="photo" alt="crossmark" src={crossmark} />
+                  )}
+                  {item === "o" && (
+                    <img className="photo" alt="circle" src={circle} />
+                  )}
+                </Button>
+              );
+            }
+          })}
+        </ButtonGroup>
+      </TemplateBox>
+    </Fragment>
   );
 };
 export default Game;
