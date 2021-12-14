@@ -22,10 +22,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useHistory } from "react-router-dom";
 import {
   addWinToUser,
-  getUsernameByEmail,
   addTieToUser,
   addLoseToUser,
-  getUsernameByUid,
 } from "../components/auth/firebase";
 
 const firstGroup = [0, 1, 2],
@@ -101,6 +99,33 @@ const Game = (props) => {
         : { text: "Computer's Turn", icon: <ComputerIcon /> };
   }
 
+  const getButtonGroup = (array) => {
+    return gameBoard.map((item, index) => {
+      if (array.includes(index)) {
+        winMarkOnBoard = winMarks.includes(index)
+          ? { variant: "contained", color: "error" }
+          : { variant: "", color: "" };
+        return (
+          <Button
+            style={{ width: 150, height: 150 }}
+            variant={winMarkOnBoard.variant}
+            color={winMarkOnBoard.color}
+            id={index}
+            key={index}
+            onClick={makeMark}
+          >
+            {item === "x" && (
+              <img className="photo" alt="crossmark" src={crossmark} />
+            )}
+            {item === "o" && (
+              <img className="photo" alt="circle" src={circle} />
+            )}
+          </Button>
+        );
+      }
+    });
+  };
+
   const Header = (
     <IconButton onClick={goBack}>
       <ArrowBackIcon />
@@ -127,86 +152,17 @@ const Game = (props) => {
           </Button>
         )}
         <ButtonGroup variant="outlined" aria-label="outlined button group">
-          {gameBoard.map((item, index) => {
-            if (firstGroup.includes(index)) {
-              winMarkOnBoard = winMarks.includes(index)
-                ? { variant: "contained", color: "error" }
-                : { variant: "", color: "" };
-              return (
-                <Button
-                  style={{ width: 150, height: 150 }}
-                  variant={winMarkOnBoard.variant}
-                  color={winMarkOnBoard.color}
-                  id={index}
-                  key={index}
-                  onClick={makeMark}
-                >
-                  {item === "x" && (
-                    <img className="photo" alt="crossmark" src={crossmark} />
-                  )}
-                  {item === "o" && (
-                    <img className="photo" alt="circle" src={circle} />
-                  )}
-                </Button>
-              );
-            }
-          })}
+          {getButtonGroup(firstGroup)}
         </ButtonGroup>
         <ButtonGroup variant="outlined" aria-label="outlined button group">
-          {gameBoard.map((item, index) => {
-            if (secondGroup.includes(index)) {
-              winMarkOnBoard = winMarks.includes(index)
-                ? { variant: "contained", color: "error" }
-                : { variant: "", color: "" };
-              return (
-                <Button
-                  style={{ width: 150, height: 150 }}
-                  variant={winMarkOnBoard.variant}
-                  color={winMarkOnBoard.color}
-                  id={index}
-                  key={index}
-                  onClick={makeMark}
-                >
-                  {item === "x" && (
-                    <img className="photo" alt="crossmark" src={crossmark} />
-                  )}
-                  {item === "o" && (
-                    <img className="photo" alt="circle" src={circle} />
-                  )}
-                </Button>
-              );
-            }
-          })}
+        {getButtonGroup(secondGroup)}
         </ButtonGroup>
         <ButtonGroup
           variant="outlined"
           aria-label="outlined button group"
           size="large"
         >
-          {gameBoard.map((item, index) => {
-            if (thirdGroup.includes(index)) {
-              winMarkOnBoard = winMarks.includes(index)
-                ? { variant: "contained", color: "error" }
-                : { variant: "", color: "" };
-              return (
-                <Button
-                  style={{ width: 150, height: 150 }}
-                  id={index}
-                  variant={winMarkOnBoard.variant}
-                  color={winMarkOnBoard.color}
-                  key={index}
-                  onClick={makeMark}
-                >
-                  {item === "x" && (
-                    <img className="photo" alt="crossmark" src={crossmark} />
-                  )}
-                  {item === "o" && (
-                    <img className="photo" alt="circle" src={circle} />
-                  )}
-                </Button>
-              );
-            }
-          })}
+        {getButtonGroup(thirdGroup)}
         </ButtonGroup>
       </TemplateBox>
     </Fragment>

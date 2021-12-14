@@ -1,4 +1,3 @@
-import { useGridLogger } from "@mui/x-data-grid";
 import firebase from "firebase";
 
 const firebaseConfig = {

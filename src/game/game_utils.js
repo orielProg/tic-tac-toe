@@ -36,7 +36,7 @@ const checkDiagonal = (array,winMarks) => {
         return array[0];
     }
     else if(array[2] !== '' && array[2]===array[4] && array[4]===array[6]){
-        winMarks.push(3,4,6);
+        winMarks.push(2,4,6);
         return array[2];
     }
     return '';

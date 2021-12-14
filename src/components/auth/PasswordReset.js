@@ -1,5 +1,4 @@
 import { useHistory } from "react-router-dom";
-import TemplateBox from "../../layout/TemplateBox";
 import { Typography } from "@mui/material";
 import { Fragment, useRef } from "react";
 import { TextField } from "@mui/material";
@@ -9,12 +8,10 @@ import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button } from "@mui/material";
 import { sendPasswordResetEmail } from "./firebase";
-import { useState } from "react";
 
 const PasswordReset = (props) => {
   const history = useHistory();
   const emailRef = useRef();
-  const codeRef = useRef();
 
   const goBack = () => {
     history.push("/menu");

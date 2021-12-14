@@ -1,5 +1,4 @@
 import { useHistory } from "react-router-dom";
-import TemplateBox from "../layout/TemplateBox";
 import { Button, Container, IconButton, Tooltip } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Emoji from "a11y-react-emoji";
@@ -10,7 +9,6 @@ import { Avatar } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 import { ListItemIcon } from "@mui/material";
 import { Box } from "@mui/system";
-import { Grid } from "@mui/material";
 
 const GameMenu = (props) => {
   const [settingsPosition, setSettingsPosition] = useState(null);
@@ -21,7 +19,7 @@ const GameMenu = (props) => {
   };
 
   const openGame = () => {
-    history.push("/");
+    history.push("/game");
   };
 
   const openUpdateProfile = () => {

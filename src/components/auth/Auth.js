@@ -5,15 +5,11 @@ import { Avatar, TextField, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useHistory } from "react-router";
 import {
-  getArrayOfUsers,
-  getUsernameByEmail,
-  signInWithEmailAndPassword,
-  test,
+  signInWithEmailAndPassword
 } from "./firebase.js";
-import { rows } from "../../game/Leaderboard.js";
 
 const calculateRemainingTime = (expirationTime) => {
   const currentTime = new Date().getTime();

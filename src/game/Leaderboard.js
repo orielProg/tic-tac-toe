@@ -1,11 +1,9 @@
 import { getArrayOfUsers } from "../components/auth/firebase";
 import { DataGrid } from "@mui/x-data-grid";
-import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import { useState, useEffect, Fragment } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { IconButton, TableContainer } from "@mui/material";
+import { IconButton} from "@mui/material";
 import { useHistory } from "react-router-dom";
-import { Paper } from "@mui/material";
 import { Box } from "@mui/system";
 
 const columns = [

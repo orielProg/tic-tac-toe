@@ -33,7 +33,10 @@ function App() {
           <Switch>
             {loginState && (
               <Fragment>
-                <Route path="/" exact>
+              <Route path="/" exact>
+                  <Redirect to="/menu" />
+                </Route>
+                <Route path="/game" exact>
                   <Game loginState={loginState} />
                 </Route>
                 <Route path="/leaderboard" exact>
