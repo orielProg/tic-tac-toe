@@ -100,12 +100,13 @@ const Game = (props) => {
   }
 
   const getButtonGroup = (array) => {
-    return gameBoard.map((item, index) => {
+    let gameArray = [];
+    gameBoard.forEach((item, index) => {
       if (array.includes(index)) {
         winMarkOnBoard = winMarks.includes(index)
           ? { variant: "contained", color: "error" }
           : { variant: "", color: "" };
-        return (
+        gameArray.push(
           <Button
             style={{ width: 150, height: 150 }}
             variant={winMarkOnBoard.variant}
@@ -124,6 +125,7 @@ const Game = (props) => {
         );
       }
     });
+    return gameArray;
   };
 
   const Header = (
@@ -155,14 +157,14 @@ const Game = (props) => {
           {getButtonGroup(firstGroup)}
         </ButtonGroup>
         <ButtonGroup variant="outlined" aria-label="outlined button group">
-        {getButtonGroup(secondGroup)}
+          {getButtonGroup(secondGroup)}
         </ButtonGroup>
         <ButtonGroup
           variant="outlined"
           aria-label="outlined button group"
           size="large"
         >
-        {getButtonGroup(thirdGroup)}
+          {getButtonGroup(thirdGroup)}
         </ButtonGroup>
       </TemplateBox>
     </Fragment>

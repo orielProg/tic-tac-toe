@@ -3,14 +3,15 @@ import { Box } from "@mui/system";
 import { Avatar } from "@mui/material";
 import { Typography } from "@mui/material";
 import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Container, Link, Grid } from "@mui/material";
 import { useHistory } from "react-router-dom";
-import { useRef } from "react";
+import { useRef,useState } from "react";
 import { registerWithEmailAndPassword, signInWithEmailAndPassword } from "./firebase";
 
 
 const Register = (props) => {
+  const [loading,setLoading] = useState(false);
   
   const usernameRef = useRef();
   const emailRef = useRef();
@@ -19,10 +20,12 @@ const Register = (props) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredUsername = usernameRef.current.value;
     registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword).then(async val => {
+      setLoading(false);
       if(val===1){
         const uid = await signInWithEmailAndPassword(enteredEmail, enteredPassword);
         if(uid){
@@ -74,15 +77,16 @@ const Register = (props) => {
             label="Password"
             inputRef={passwordRef}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{ marginTop: 3 }}
-            onClick={submitHandler}
-          >
-            Register
-          </Button>
+          <LoadingButton
+          onClick={submitHandler}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          fullWidth
+          sx={{ marginTop: 3 }}
+        >
+          Register
+        </LoadingButton>
           <Grid container sx={{ marginTop: 2, marginBottom: 6 }}>
             <Grid item xs>
               <Link href="/login" variant="body2">

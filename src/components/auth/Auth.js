@@ -2,21 +2,19 @@ import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
 import LockIcon from "@mui/icons-material/Lock";
 import { Avatar, TextField, Typography } from "@mui/material";
-import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Link } from "@mui/material";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useHistory } from "react-router";
-import {
-  signInWithEmailAndPassword
-} from "./firebase.js";
+import { signInWithEmailAndPassword } from "./firebase.js";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const calculateRemainingTime = (expirationTime) => {
   const currentTime = new Date().getTime();
   const adjExpirationTime = new Date(expirationTime).getTime();
   const remainingDuration = adjExpirationTime - currentTime;
   return remainingDuration;
-};  
+};
 
 export const retrieveStoredToken = () => {
   const storedToken = localStorage.getItem("token");
@@ -40,6 +38,7 @@ const Auth = (props) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const tokenDetails = retrieveStoredToken();
 
@@ -50,13 +49,18 @@ const Auth = (props) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     signInWithEmailAndPassword(enteredEmail, enteredPassword).then(
       async (uid) => {
         if (uid) {
           localStorage.setItem("token", uid);
-          localStorage.setItem("expirationTime", new Date(new Date().getTime()+60*60*1000).toISOString());
+          localStorage.setItem(
+            "expirationTime",
+            new Date(new Date().getTime() + 60 * 60 * 1000).toISOString()
+          );
+          setLoading(false);
           props.setLoginState(uid);
           history.push("/menu");
         }
@@ -96,15 +100,16 @@ const Auth = (props) => {
             label="Password"
             inputRef={passwordRef}
           />
-          <Button
-            type="submit"
+          <LoadingButton
+            onClick={submitHandler}
+            loading={loading}
+            loadingPosition="end"
             variant="contained"
             fullWidth
             sx={{ marginTop: 3 }}
-            onClick={submitHandler}
           >
             Sign In
-          </Button>
+          </LoadingButton>
           <Grid container sx={{ marginTop: 2, marginBottom: 6 }}>
             <Grid item xs>
               <Link href="/recover" variant="body2">

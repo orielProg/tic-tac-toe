@@ -107,7 +107,7 @@ const GameMenu = (props) => {
         <Box
           sx={{
             alignItems: "center",
-            paddingTop: 5,
+            padding : 10,
             flexDirection: "column",
             display: "flex",
           }}
@@ -116,7 +116,7 @@ const GameMenu = (props) => {
             type="click"
             variant="outlined"
             onClick={openGame}
-            sx={{ marginTop: 5, float: "center", height: 80, margin: 2 }}
+            sx={{float: "center", height: 80, margin: 2 }}
           >
             New Game
             <Emoji symbol="🎮" label="game" />
@@ -124,7 +124,7 @@ const GameMenu = (props) => {
           <Button
             type="click"
             variant="outlined"
-            sx={{ marginTop: 5, float: "center", height: 80, margin: 2 }}
+            sx={{float: "center", height: 80, margin: 2 }}
             onClick={openLeaderboard}
           >
             Leaderboard
@@ -133,7 +133,7 @@ const GameMenu = (props) => {
           <Button
             type="click"
             variant="outlined"
-            sx={{ marginTop: 5, float: "center", height: 80, margin: 2 }}
+            sx={{ float: "center", height: 80, margin: 2 }}
             onClick={logoutHandler}
           >
             Logout

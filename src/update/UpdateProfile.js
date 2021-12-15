@@ -3,7 +3,8 @@ import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import { Fragment, useState, useRef} from "react";
+import { LoadingButton } from "@mui/lab";
+import { Fragment, useState, useRef } from "react";
 import { Container } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import { Avatar } from "@mui/material";
@@ -19,6 +20,7 @@ import {
 } from "../components/auth/firebase";
 
 const UpdateProfile = (props) => {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [updateData, setUpdateData] = useState(null);
   const firstRef = useRef();
@@ -48,8 +50,9 @@ const UpdateProfile = (props) => {
     setUpdateData(null);
   };
 
-  const changeEmail = async (event) => {
+  const change = async (event) => {
     event.preventDefault();
+    setLoading(true);
     var msg, result;
     if (event.target.id === "Change Email") {
       result = await changeEmailOrPassword(
@@ -86,6 +89,7 @@ const UpdateProfile = (props) => {
         msg = "Score reset successfully";
       }
     }
+    setLoading(false);
     if (result === 1) {
       alert(msg);
       goBackFromUpdate();
@@ -103,7 +107,6 @@ const UpdateProfile = (props) => {
     label1: "New email",
     label2: "Account password",
     button: "Change Email",
-    clickFunc: { changeEmail },
   };
 
   if (updateData === "username") {
@@ -115,7 +118,6 @@ const UpdateProfile = (props) => {
       label1: "New username",
       label2: "Account password",
       button: "Change Username",
-      clickFunc: { changeEmail },
     };
   } else if (updateData === "password") {
     componentDetails = {
@@ -126,7 +128,6 @@ const UpdateProfile = (props) => {
       label1: "Old password",
       label2: "New password",
       button: "Change Password",
-      clickFunc: { changeEmail },
     };
   } else if (updateData === "score") {
     componentDetails = {
@@ -137,7 +138,6 @@ const UpdateProfile = (props) => {
       label1: "Account email",
       label2: "Account password",
       button: "Reset Score",
-      clickFunc: { changeEmail },
     };
   }
 
@@ -260,16 +260,17 @@ const UpdateProfile = (props) => {
               label={componentDetails.label2}
               inputRef={passwordRef}
             />
-            <Button
-              type="submit"
-              variant="contained"
+            <LoadingButton
               id={componentDetails.text}
-              fullWidth
-              onClick={changeEmail}
+              onClick={change}
               sx={{ marginTop: 3, marginBottom: 5 }}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              fullWidth
             >
               {componentDetails.button}
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Container>
