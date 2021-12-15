@@ -53,14 +53,14 @@ const Auth = (props) => {
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     signInWithEmailAndPassword(enteredEmail, enteredPassword).then(
-      async (uid) => {
+      (uid) => {
+        setLoading(false);
         if (uid) {
           localStorage.setItem("token", uid);
           localStorage.setItem(
             "expirationTime",
             new Date(new Date().getTime() + 60 * 60 * 1000).toISOString()
           );
-          setLoading(false);
           props.setLoginState(uid);
           history.push("/menu");
         }

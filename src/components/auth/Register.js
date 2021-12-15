@@ -25,9 +25,9 @@ const Register = (props) => {
     const enteredPassword = passwordRef.current.value;
     const enteredUsername = usernameRef.current.value;
     registerWithEmailAndPassword(enteredUsername,enteredEmail,enteredPassword).then(async val => {
-      setLoading(false);
       if(val===1){
         const uid = await signInWithEmailAndPassword(enteredEmail, enteredPassword);
+        setLoading(false);
         if(uid){
           localStorage.setItem("token", uid);
           localStorage.setItem("expirationTime", new Date(new Date().getTime()+60*60*1000).toISOString());
@@ -35,6 +35,7 @@ const Register = (props) => {
           history.push("/menu");
         }
       }
+      setLoading(false);
     });
   }
 
