@@ -9,11 +9,19 @@ import { Avatar } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 import { ListItemIcon } from "@mui/material";
 import { Box } from "@mui/system";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const GameMenu = (props) => {
   const [settingsPosition, setSettingsPosition] = useState(null);
   const open = Boolean(settingsPosition);
   const history = useHistory();
+
+  const currentMode =
+    props.themeMode === "light"
+      ? { msg: "Dark mode : Off", icon: <Brightness7Icon sx = {{marginRight : 1 }}/> }
+      : { msg: "Dark mode : On", icon: <Brightness4Icon sx = {{marginRight : 1 }}/> };
+
   const openLeaderboard = () => {
     history.push("/leaderboard");
   };
@@ -77,6 +85,7 @@ const GameMenu = (props) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
+      <MenuItem onClick={props.changeMode}>{currentMode.icon}{currentMode.msg}</MenuItem>
       <MenuItem onClick={openUpdateProfile}>
         <Avatar />
         Update profile
@@ -107,7 +116,7 @@ const GameMenu = (props) => {
         <Box
           sx={{
             alignItems: "center",
-            padding : 10,
+            padding: 10,
             flexDirection: "column",
             display: "flex",
           }}
@@ -116,7 +125,7 @@ const GameMenu = (props) => {
             type="click"
             variant="outlined"
             onClick={openGame}
-            sx={{float: "center", height: 80, margin: 2 }}
+            sx={{ float: "center", height: 80, margin: 2 }}
           >
             New Game
             <Emoji symbol="🎮" label="game" />
@@ -124,7 +133,7 @@ const GameMenu = (props) => {
           <Button
             type="click"
             variant="outlined"
-            sx={{float: "center", height: 80, margin: 2 }}
+            sx={{ float: "center", height: 80, margin: 2 }}
             onClick={openLeaderboard}
           >
             Leaderboard

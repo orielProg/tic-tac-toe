@@ -12,15 +12,28 @@ import Leaderboard from "./game/Leaderboard";
 import PasswordReset from "./components/auth/PasswordReset";
 import UpdateProfile from "./update/UpdateProfile";
 
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
 function App() {
   const [loginState, setLoginState] = useState(null);
+  const [themeMode,setThemeMode] = useState("light");
   const tokenDetails = retrieveStoredToken();
+  const storedMode = localStorage.getItem("mode");
+  if(storedMode && storedMode!==themeMode){
+    setThemeMode(storedMode);
+  }
+
+  const theme = createTheme({
+    palette: {
+      mode: themeMode,
+    },
+  });
+
+  const changeMode = () => {
+    console.log("hi");
+    const mode = storedMode === "light" ? "dark" : "light";
+    localStorage.setItem("mode", mode);
+    setThemeMode(mode);
+  };
+
 
   if (!loginState && tokenDetails) {
     setLoginState(tokenDetails.token);
@@ -43,7 +56,7 @@ function App() {
                   <Leaderboard />
                 </Route>
                 <Route path="/menu" exact>
-                  <GameMenu setLoginState={setLoginState} />
+                  <GameMenu setLoginState={setLoginState} themeMode = {themeMode} changeMode = {changeMode}/>
                 </Route>
                 <Route path="/update" exact>
                   <UpdateProfile
@@ -56,7 +69,7 @@ function App() {
             {!loginState && (
               <Fragment>
                 <Route path="/login" exact>
-                  <Auth setLoginState={setLoginState} />
+                  <Auth setLoginState={setLoginState} themeMode = {themeMode} changeMode = {changeMode}/>
                 </Route>
                 <Route path="/" exact>
                   <Redirect to="/login" />
