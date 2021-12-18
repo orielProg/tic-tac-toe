@@ -16,7 +16,12 @@ function App() {
   const [themeMode,setThemeMode] = useState("light");
   const tokenDetails = retrieveStoredToken();
   const storedMode = localStorage.getItem("mode");
-  if(storedMode && storedMode!==themeMode){
+  if(!storedMode){
+    setThemeMode("light");
+    localStorage.setItem("mode", themeMode);
+  }
+
+  else if(storedMode && storedMode!==themeMode){
     setThemeMode(storedMode);
   }
 
