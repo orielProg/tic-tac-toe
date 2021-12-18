@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 
-This project is a game which user can log-in to his user, play the game, update his profile and watch the leaderboard.
+This project is a game which the user can log-in to his account, play the game, update his profile and watch the leaderboard.
 
 ## Technologies and main dependencies
 
