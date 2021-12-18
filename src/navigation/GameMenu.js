@@ -1,16 +1,12 @@
-import { useHistory } from "react-router-dom";
-import { Button, Container, IconButton, Tooltip } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import Emoji from "a11y-react-emoji";
-import { Fragment, useState } from "react";
-import { Menu } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import { Avatar } from "@mui/material";
 import { Logout } from "@mui/icons-material";
-import { ListItemIcon } from "@mui/material";
-import { Box } from "@mui/system";
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Avatar, Button, Container, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Box } from "@mui/system";
+import Emoji from "a11y-react-emoji";
+import { Fragment, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const GameMenu = (props) => {
   const [settingsPosition, setSettingsPosition] = useState(null);

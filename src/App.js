@@ -1,15 +1,14 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Fragment, useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Auth, { retrieveStoredToken } from "./components/auth/Auth";
+import PasswordReset from "./components/auth/PasswordReset";
+import Register from "./components/auth/Register";
+import Game from "./game/Game";
+import Leaderboard from "./game/Leaderboard";
 import Background from "./layout/Background";
 import TemplateCard from "./layout/TemplateCard";
-import Register from "./components/auth/Register";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { useState } from "react";
-import Game from "./game/Game";
 import GameMenu from "./navigation/GameMenu";
-import { Fragment } from "react";
-import Leaderboard from "./game/Leaderboard";
-import PasswordReset from "./components/auth/PasswordReset";
 import UpdateProfile from "./update/UpdateProfile";
 
 function App() {

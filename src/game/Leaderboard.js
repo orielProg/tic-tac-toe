@@ -1,10 +1,10 @@
-import { getArrayOfUsers } from "../components/auth/firebase";
-import { DataGrid } from "@mui/x-data-grid";
-import { useState, useEffect, Fragment } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { IconButton} from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { IconButton } from "@mui/material";
 import { Box } from "@mui/system";
+import { DataGrid } from "@mui/x-data-grid";
+import { Fragment, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { getArrayOfUsers } from "../components/auth/firebase";
 
 const columns = [
   { field: "id", headerName: "Rank" },

@@ -1,12 +1,9 @@
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import { Box } from "@mui/system";
-import { Avatar } from "@mui/material";
-import { Typography } from "@mui/material";
-import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Container, Link, Grid } from "@mui/material";
+import { Avatar, Container, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useRef,useState } from "react";
 import { registerWithEmailAndPassword, signInWithEmailAndPassword } from "./firebase";
 
 

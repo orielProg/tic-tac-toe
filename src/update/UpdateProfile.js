@@ -1,22 +1,17 @@
-import { useHistory } from "react-router-dom";
-import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box } from "@mui/system";
-import { Button } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { Fragment, useState, useRef } from "react";
-import { Container } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import { Avatar } from "@mui/material";
-import { Typography } from "@mui/material";
-import { TextField } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import PasswordIcon from "@mui/icons-material/Password";
+import PersonIcon from "@mui/icons-material/Person";
 import ScoreIcon from "@mui/icons-material/Score";
+import { LoadingButton } from "@mui/lab";
+import { Avatar, Button, Container, IconButton, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { Fragment, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   changeEmailOrPassword,
   changeUsernameByUid,
-  resetScore,
+  resetScore
 } from "../components/auth/firebase";
 
 const UpdateProfile = (props) => {

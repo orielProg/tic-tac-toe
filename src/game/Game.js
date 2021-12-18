@@ -1,30 +1,30 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ComputerIcon from "@mui/icons-material/Computer";
+import PersonIcon from "@mui/icons-material/Person";
+import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import {
-  ButtonGroup,
-  Typography,
-  Button,
   Avatar,
+  Button,
+  ButtonGroup,
   IconButton,
+  Typography
 } from "@mui/material";
-import { Fragment, useCallback, useEffect } from "react";
+import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import circle from "../circle.png";
-import crossmark from "../cross-mark.png";
+import { Fragment, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import circle from "../circle.png";
+import {
+  addLoseToUser,
+  addTieToUser,
+  addWinToUser
+} from "../components/auth/firebase";
+import crossmark from "../cross-mark.png";
+import TemplateBox from "../layout/TemplateBox";
 import { gameActions } from "../store/game";
 import "./Game.css";
 import { computerMove } from "./game_utils";
-import { styled } from "@mui/material/styles";
-import PersonIcon from "@mui/icons-material/Person";
-import ComputerIcon from "@mui/icons-material/Computer";
-import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
-import TemplateBox from "../layout/TemplateBox";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useHistory } from "react-router-dom";
-import {
-  addWinToUser,
-  addTieToUser,
-  addLoseToUser,
-} from "../components/auth/firebase";
 
 const firstGroup = [0, 1, 2],
   secondGroup = [3, 4, 5],

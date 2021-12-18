@@ -1,12 +1,8 @@
-import { useHistory } from "react-router-dom";
-import { Typography } from "@mui/material";
-import { Fragment, useRef } from "react";
-import { TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import { Container } from "@mui/material";
-import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button } from "@mui/material";
+import { Button, Container, IconButton, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { Fragment, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { sendPasswordResetEmail } from "./firebase";
 
 const PasswordReset = (props) => {

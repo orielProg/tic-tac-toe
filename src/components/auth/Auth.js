@@ -1,16 +1,13 @@
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import LockIcon from "@mui/icons-material/Lock";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Avatar, Grid, IconButton, Link, TextField, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
-import LockIcon from "@mui/icons-material/Lock";
-import { Avatar, TextField, Typography } from "@mui/material";
-import { Grid } from "@mui/material";
-import { Link } from "@mui/material";
 import { useRef, useState } from "react";
 import { useHistory } from "react-router";
 import { signInWithEmailAndPassword } from "./firebase.js";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { IconButton } from "@mui/material";
 
 const calculateRemainingTime = (expirationTime) => {
   const currentTime = new Date().getTime();

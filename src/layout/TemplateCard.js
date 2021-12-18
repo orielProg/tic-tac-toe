@@ -1,5 +1,4 @@
-import { Grid } from "@mui/material";
-import { Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 
 const TemplateCard = (props) => {
   return (
