@@ -39,7 +39,6 @@ const GameMenu = (props) => {
   };
 
   const logoutHandler = () => {
-    console.log("bye");
     props.setLoginState(null);
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");

@@ -27,7 +27,6 @@ function App() {
   });
 
   const changeMode = () => {
-    console.log("hi");
     const mode = storedMode === "light" ? "dark" : "light";
     localStorage.setItem("mode", mode);
     setThemeMode(mode);

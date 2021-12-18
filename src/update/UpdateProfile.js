@@ -28,7 +28,6 @@ const UpdateProfile = (props) => {
 
   const updateUsername = () => {
     setUpdateData("username");
-    console.log("username");
   };
 
   const updatePassword = () => {

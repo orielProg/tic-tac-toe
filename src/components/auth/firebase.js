@@ -98,7 +98,6 @@ export const addWinToUser = async (uid) => {
     .then((snapshot) => {
       return snapshot.data().wins;
     });
-  console.log(wins);
   await db
     .collection("users")
     .doc(username)
@@ -143,7 +142,6 @@ export const getArrayOfUsers = async () => {
 
 export const sendPasswordResetEmail = async (email) => {
   try {
-    console.log(email);
     await auth.sendPasswordResetEmail(email);
     alert("Password reset link sent!");
     return 1;
@@ -173,7 +171,6 @@ export const changeEmailOrPassword = async (
   try {
     const username = await getUsernameByUid(uid);
     const email = await getEmailByUsername(username);
-    console.log(email);
     await auth
       .signInWithEmailAndPassword(email, password)
       .then(async (userCredential) => {
@@ -195,14 +192,12 @@ export const changeUsernameByUid = async (uid, password, newUsername) => {
     const oldUsername = await getUsernameByUid(uid);
     const email = await getEmailByUsername(oldUsername);
     await auth.signInWithEmailAndPassword(email, password);
-    console.log(email);
     var data;
     const snapshot = await db
       .collection("users")
       .where("email", "==", email)
       .get();
     snapshot.forEach((doc) => {
-      console.log(doc.data());
       data = doc.data();
       data.username = newUsername;
     });
@@ -226,7 +221,6 @@ export const resetScore = async (uid, password) => {
       .update({ ties: 0, wins: 0, loses: 0 });
     return 1;
   } catch (error) {
-    console.log(error.message);
     return -1;
   }
 };

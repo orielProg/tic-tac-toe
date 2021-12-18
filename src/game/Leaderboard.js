@@ -37,7 +37,6 @@ const Leaderboard = (props) => {
         loses: element.loses,
         ties: element.ties,
       }));
-      console.log(rows);
       setRowsData(rows);
     };
     getLeaderboard().catch((error) => {
