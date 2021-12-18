@@ -76,7 +76,7 @@ const Register = (props) => {
             inputRef={passwordRef}
           />
           <LoadingButton
-          onClick={submitHandler}
+          onSubmit={submitHandler}
           loading={loading}
           loadingPosition="end"
           variant="contained"

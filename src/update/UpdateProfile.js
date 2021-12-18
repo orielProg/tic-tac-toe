@@ -256,7 +256,7 @@ const UpdateProfile = (props) => {
             />
             <LoadingButton
               id={componentDetails.text}
-              onClick={change}
+              onSubmit={change}
               sx={{ marginTop: 3, marginBottom: 5 }}
               loading={loading}
               loadingPosition="end"
