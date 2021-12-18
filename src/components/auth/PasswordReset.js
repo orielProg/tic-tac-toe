@@ -1,5 +1,11 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Container, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  IconButton,
+  TextField,
+  Typography
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { Fragment, useRef } from "react";
 import { useHistory } from "react-router-dom";
@@ -50,7 +56,7 @@ const PasswordReset = (props) => {
             Account recovery
           </Typography>
           <Typography variant="h7" sx={{ paddingTop: 2, paddingBottom: 1 }}>
-            Enter an email address where we can send you a verification code 
+            Enter an email address where we can send you a verification code
           </Typography>
 
           <TextField
@@ -70,13 +76,16 @@ const PasswordReset = (props) => {
           display: "flex",
         }}
       >
-        <Button variant="contained" sx={{ margin: 3, float: "right" }} onClick = {sendResetEmail}>
+        <Button
+          variant="contained"
+          sx={{ margin: 3, float: "right" }}
+          onClick={sendResetEmail}
+        >
           Next
         </Button>
       </Box>
     </Fragment>
   );
-
 };
 
 export default PasswordReset;
