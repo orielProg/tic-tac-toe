@@ -5,6 +5,7 @@ This project is a game which user can log-in to his user, play the game, update 
 ## Technologies and main dependencies
 
 * React
+* Firebase
 * Redux toolkit
 * MUI - React components library
 
